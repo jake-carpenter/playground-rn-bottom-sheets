@@ -1,6 +1,6 @@
-import { forwardRef } from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Pressable, StyleSheet } from 'react-native';
+import { forwardRef } from 'react'
+import FontAwesome from '@expo/vector-icons/FontAwesome'
+import { Pressable, StyleSheet } from 'react-native'
 
 export const HeaderButton = forwardRef<typeof Pressable, { onPress?: () => void }>(
   ({ onPress }, ref) => {
@@ -20,14 +20,14 @@ export const HeaderButton = forwardRef<typeof Pressable, { onPress?: () => void 
           />
         )}
       </Pressable>
-    );
+    )
   }
-);
+)
 
-HeaderButton.displayName = 'HeaderButton';
+HeaderButton.displayName = 'HeaderButton'
 
 export const styles = StyleSheet.create({
   headerRight: {
     marginRight: 15,
   },
-});
+})
