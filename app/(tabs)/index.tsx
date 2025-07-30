@@ -2,36 +2,33 @@ import { Stack } from 'expo-router'
 
 import { StyleSheet, Text, View } from 'react-native'
 
-import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet'
-import { useState } from 'react'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { BottomSheetBackdrop, BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet'
+import { createRef } from 'react'
 import { Button } from '~/components/Button'
 import { ScreenContent } from '~/components/ScreenContent'
 
 export default function Home() {
-  const [visible, setVisible] = useState(false)
+  const bottomSheetModalRef = createRef<BottomSheetModal>()
 
   return (
-    <GestureHandlerRootView>
+    <>
       <Stack.Screen options={{ title: 'Tab One' }} />
       <View style={styles.container}>
         <ScreenContent path="app/(tabs)/index.tsx" title="Tab One" />
-        <Button title="Open bottom sheet" onPress={() => setVisible(true)} />
+        <Button title="Open bottom sheet" onPress={() => bottomSheetModalRef.current?.present()} />
       </View>
-      {visible && (
-        <BottomSheet
-          snapPoints={['50%', '90%']}
-          enableDynamicSizing={false}
-          index={0}
-          backdropComponent={BottomSheetBackdrop}
-          onClose={() => setVisible(false)}
-          enablePanDownToClose>
-          <BottomSheetView style={styles.container}>
-            <Text>Hello, World!</Text>
-          </BottomSheetView>
-        </BottomSheet>
-      )}
-    </GestureHandlerRootView>
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        snapPoints={['25%', '50%', '75%']}
+        enableDynamicSizing={false}
+        index={1}
+        backdropComponent={BottomSheetBackdrop}
+        enablePanDownToClose>
+        <BottomSheetView style={styles.container}>
+          <Text>Hello, World!</Text>
+        </BottomSheetView>
+      </BottomSheetModal>
+    </>
   )
 }
 
