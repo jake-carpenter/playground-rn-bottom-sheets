@@ -1,3 +1,4 @@
+import 'expo-dev-client'
 import { Link, Tabs } from 'expo-router'
 
 import { HeaderButton } from '../../components/HeaderButton'
