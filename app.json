@@ -34,10 +34,12 @@
       "bundleIdentifier": "com.jcarpenter1.playgroundrnbottomsheets"
     },
     "android": {
+      "edgeToEdgeEnabled": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.jcarpenter1.playgroundrnbottomsheets"
     },
     "extra": {
       "router": {},

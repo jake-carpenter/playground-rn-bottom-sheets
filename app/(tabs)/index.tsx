@@ -5,15 +5,20 @@ import { StyleSheet, Text, View } from 'react-native'
 import {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
+  BottomSheetBackgroundProps,
+  BottomSheetFooter,
+  BottomSheetFooterProps,
   BottomSheetModal,
   BottomSheetView,
 } from '@gorhom/bottom-sheet'
 import { createRef } from 'react'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Button } from '~/components/Button'
 import { ScreenContent } from '~/components/ScreenContent'
 
 export default function Home() {
   const bottomSheetModalRef = createRef<BottomSheetModal>()
+  const { bottom } = useSafeAreaInsets()
 
   return (
     <>
@@ -22,15 +27,15 @@ export default function Home() {
         <ScreenContent path="app/(tabs)/index.tsx" title="Tab One" />
         <Button title="Open bottom sheet" onPress={() => bottomSheetModalRef.current?.present()} />
       </View>
-      <BottomSheetModal
+      <BottomSheetModal // Adding bottom inset on this just moves this whole thing up
+        enablePanDownToClose
         ref={bottomSheetModalRef}
-        snapPoints={['50%']}
-        enableDynamicSizing={false}
-        index={0}
-        backdropComponent={AdjustedBackdrop}
-        enablePanDownToClose>
-        <BottomSheetView style={styles.container}>
+        backgroundComponent={AdjustedBackground}
+        backdropComponent={AdjustedBackdrop}>
+        <BottomSheetView
+          style={[styles.container, { backgroundColor: 'green', paddingBottom: bottom }]}>
           <Text>Hello, World!</Text>
+          <Button title="I'm a button" onPress={() => bottomSheetModalRef.current?.dismiss()} />
         </BottomSheetView>
       </BottomSheetModal>
     </>
@@ -40,7 +45,7 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 24,
+    paddingHorizontal: 24,
   },
 })
 
@@ -58,4 +63,19 @@ function AdjustedBackdrop(props: BottomSheetBackdropProps) {
       disappearsOnIndex={-1}
     />
   )
+}
+
+// Example footer, but it just sits in front of the sheet content. BottomSheetView would have to
+// compensate for the size.
+function AdjustedFooter(props: BottomSheetFooterProps) {
+  const { bottom } = useSafeAreaInsets()
+  return (
+    <BottomSheetFooter {...props} style={{ backgroundColor: 'red' }} bottomInset={bottom}>
+      <Text>Custom Footer</Text>
+    </BottomSheetFooter>
+  )
+}
+
+function AdjustedBackground(props: BottomSheetBackgroundProps) {
+  return <View style={[props.style, { backgroundColor: 'blue' }]} />
 }
